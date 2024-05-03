@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, Long>{
-
     Page<Consulta> findAllByAtivoTrue(Pageable paginacao);
 
     @Query("""
@@ -20,7 +19,6 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long>{
             c.id = :idConsulta
             """)
 
-
     Boolean findAtivoById(Long idConsulta);
 
     boolean existsByMedicoIdAndDataAndMotivoCancelamentoIsNull(Long idConsulta, LocalDateTime data);
@@ -28,6 +26,5 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long>{
     // Alterado para que o paciente possa trocar o horário da consulta
     /*boolean existsByPacienteIdAndDataBetween(Long idPaciente, LocalDateTime primeiroHorario, LocalDateTime ultimoHorario);*/
     boolean existsByPacienteIdAndDataBetweenAndMotivoCancelamentoIsNull(Long idPaciente, LocalDateTime primeiroHorario, LocalDateTime ultimoHorario);
-
 
 }

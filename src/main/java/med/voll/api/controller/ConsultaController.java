@@ -19,11 +19,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("consultas")
 public class ConsultaController {
 
+//    @Autowired  //Injeção de dependencia
+//    private AgendaDeConsultas repository;
+
     @Autowired   /*Injeção de dependencia*/
     private AgendaDeConsultas agenda;
 
-    @Autowired  /*Injeção de dependencia*/
-    private AgendaDeConsultas repository;
+    @GetMapping
+    public ResponseEntity<Page<DadosListagemConsulta>>listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+        var page = ResponseEntity.findAllByAtivoTrue(paginacao).map(DadosListagemConsulta::new);
+        return ResponseEntity.ok(page);
+
+    }
+
+/*    @GetMapping
+    public ResponseEntity<Page<DadosListagemConsulta>> listar(@PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
+        var page = ResponseEntity.findAllByAtivoTrue(paginacao).map(DadosListagemConsulta::new);
+        return ResponseEntity.ok(page);*/
 
     @PostMapping
     @Transactional
@@ -32,24 +44,23 @@ public class ConsultaController {
         return ResponseEntity.ok(dto);
     }
 
-
-    @PutMapping()
-    @jakarta.transaction.Transactional
-    public void cancelar(@RequestBody @Valid DadosCancelamentoConsulta dados) {
-        var consulta = repository.getReferenceById(dados.idConsulta()); /*O Repository é usado para acessar o Banco de Dados*/
-        consulta.cancelar(dados.motivoCancelamento());
-
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity cancelar(@RequestBody @Valid DadosCancelamentoConsulta dados) {
+        agenda.cancelar(dados);
+        return ResponseEntity.noContent().build();
     }
 
-
+/*
     @GetMapping
     public Page<DadosListagemConsulta> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         return repository.findAllByAtivoTrue(paginacao).map(DadosListagemConsulta::new);
-        /* Você precisará passar paramentros na URL, indicando quantos registros irá colocar em cada página,
+        *//* Você precisará passar paramentros na URL, indicando quantos registros irá colocar em cada página,
         qual a ordem que deseja apresentar a listagem e etc.
         Você poderá tambem, passar estar informações dentro do CONTROLER, através de uma anotação
         @PageableDefault(size = 10, sort = {"nome"})
-        Resumindo: Você poderá passar os parametros na API, mas prevalecerá o que for passado na URL. */
+        Resumindo: Você poderá passar os parametros na API, mas prevalecerá o que for passado na URL. *//*
     }
+*/
 
 }
