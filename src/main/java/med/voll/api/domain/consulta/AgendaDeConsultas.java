@@ -30,10 +30,10 @@ public class AgendaDeConsultas {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    @Autowired  // Uma forma de informar ao Spring uma lista com todos os validadores - AGENDAMENTO.
+    @Autowired  /*Uma forma de informar ao Spring uma lista com todos os validadores - AGENDAMENTO.*/
     private List<ValidadorAgendamentoDeConsulta> validadores;
 
-    @Autowired  // Uma forma de informar ao Spring uma lista com todos os validadores - CANCELAMENTO.
+    @Autowired  /*Uma forma de informar ao Spring uma lista com todos os validadores - CANCELAMENTO.*/
     private List<ValidadorCancelamentoDeConsulta> validadoresCancelamento;
 
     public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
@@ -45,18 +45,29 @@ public class AgendaDeConsultas {
             throw new ValidacaoException("Id do médico informado não existe!");
         }
 
-        validadores.forEach(v -> v.validar(dados));  // Percorrer todos os validadores na lista.
+        validadores.forEach(v -> v.validar(dados));  /*Percorrer todos os validadores na lista.*/
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
         if (medico == null) {
-            throw new ValidacaoException("Não existe médico disponivel nesta data");
+            throw new ValidacaoException("Não existe médico disponível nesta data");
         }
-
-        var consulta = new Consulta(null, medico, paciente, dados.data(), null);
+        var consulta = new Consulta(null, medico, paciente, dados.data(), null, null);
         consultaRepository.save(consulta);
 
         return new DadosDetalhamentoConsulta(consulta);
+    }
+
+    private Medico escolherMedico(DadosAgendamentoConsulta dados) {
+        if (dados.idMedico() != null) {
+            return medicoRepository.getReferenceById(dados.idMedico());
+        }
+
+        if (dados.especialidade() == null) {
+            throw new ValidacaoException("Especialidade é obrigatória, quando o médico não for escolhido.");
+        }
+
+        return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());
     }
 
     public void cancelar(DadosCancelamentoConsulta dados) {
@@ -70,20 +81,10 @@ public class AgendaDeConsultas {
         consulta.cancelar(dados.motivoCancelamento());
     }
 
-    private Medico escolherMedico(DadosAgendamentoConsulta dados) {
-        if (dados.idMedico() != null) {
-            return medicoRepository.getReferenceById(dados.idMedico());
-        }
 
-        if (dados.especialidade() == null) {
-            throw new ValidacaoException("Especialidade é obrigatória, quando o médico não for escolhido!");
-        }
-
-        return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());
-    }
 
 }
 
-// TOODO 02 - REGRAS DE NEGÓCIO
+// TODO 02 - REGRAS DE NEGÓCIO
 // TODO Aplicando principio SOLID
 // TODO Verificar a criação do campo motivo (cancelamento)

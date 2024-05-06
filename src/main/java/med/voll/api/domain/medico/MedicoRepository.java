@@ -10,27 +10,31 @@ import java.time.LocalDateTime;
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
     Page<Medico> findAllByAtivoTrue(Pageable paginacao);
 
+    /*Sintaxe JPQL (Java Persistence Query Language)*/
     @Query("""
-            select m from Medico m
+            select m 
+            from Medico m
             where
-            m.ativo = true
+                m.ativo = true
             and
-            m.especialidade = :especialidade
+                m.especialidade = :especialidade
             and
-            m.id not in (select c.medico.id from Consulta c 
-                         where c.data = :data
-                         and c.motivoCancelamento is null)
+                m.id not in (select c.medico.id from Consulta c 
+                            where 
+                                c.data = :data
+                            and 
+                                c.motivoCancelamento is null)
             order by random()
             limit 1
             """)
-
     Medico escolherMedicoAleatorioLivreNaData(Especialidade especialidade, LocalDateTime data);
 
+    /*Sintaxe JPQL (Java Persistence Query Language)*/
     @Query("""
             select m.ativo
             from Medico m
             where
-            m.id = :idMedico
+                m.id = :idMedico
             """)
     Boolean findAtivoById(Long idMedico);
 }

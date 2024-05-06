@@ -28,11 +28,14 @@ public class SecurityConfigurations {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();  // Liberar a requisição sem um token.
-                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();  // Liberar a requisição sem um token.
-                    req.anyRequest().authenticated();  // Exigir que as demais requisições, sejam autenticadas.
+                    /* Liberar a requisição sem um token.*/
+                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    /* É necessária a liberação dos três endereços abaixo, para visualizar a documentação
+                       gerada pelo SpringDoc */
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
+                    req.anyRequest().authenticated();   /*Exigir que as demais requisições, sejam autenticadas.*/
                 })
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)  // Forma de indicar a ordem dos filtros na aplicação.
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)  /*Forma de indicar a ordem dos filtros na aplicação.*/
                 .build();
     }
 

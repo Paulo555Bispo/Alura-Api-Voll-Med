@@ -12,11 +12,12 @@ public record DadosListagemMedico(Long id,
 
     /*Construtor*/
     public DadosListagemMedico(Medico medico) {
-        this(medico.getId(),
+        this(   medico.getId(),
                 medico.getNome(),
                 medico.getEmail(),
                 medico.getTelefone(),
                 medico.getCrm(),
-                medico.getEspecialidade());
+                medico.getEspecialidade()
+        );
     }
 }

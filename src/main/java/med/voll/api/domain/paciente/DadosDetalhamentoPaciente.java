@@ -3,8 +3,22 @@ package med.voll.api.domain.paciente;
 import med.voll.api.domain.endereco.Endereco;
 import med.voll.api.domain.paciente.Paciente;
 
-public record DadosDetalhamentoPaciente(Long id, String nome, String cpf, String email, String telefone, Endereco endereco) {
+public record DadosDetalhamentoPaciente(Long id,
+                                        String nome,
+                                        String cpf,
+                                        String email,
+                                        String telefone,
+                                        Endereco endereco
+) {
+
     public DadosDetalhamentoPaciente(Paciente paciente) {
-        this(paciente.getId(), paciente.getNome(), paciente.getCpf(), paciente.getEmail(), paciente.getTelefone(), paciente.getEndereco() );
+        this(
+                paciente.getId(),
+                paciente.getNome(),
+                paciente.getCpf(),
+                paciente.getEmail(),
+                paciente.getTelefone(),
+                paciente.getEndereco()
+        );
     }
 }

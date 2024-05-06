@@ -1,6 +1,7 @@
 package med.voll.api.domain.consulta;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import med.voll.api.domain.medico.Especialidade;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
-import org.springframework.boot.context.properties.bind.Name;
 
 import java.time.LocalDateTime;
 
@@ -20,24 +20,21 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = "id")
 public class Consulta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medico_id")
-    private Medico medico;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
-
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "medico_id") private Medico medico;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "paciente_id") private Paciente paciente;
     private LocalDateTime data;
-    @Column(name = "motivo_cancelamento")
-    private String motivoCancelamento;
+    @Enumerated(EnumType.STRING) private Especialidade especialidade;
+    @Column(name = "motivo_cancelamento") @Enumerated(EnumType.STRING) private MotivoCancelamento motivoCancelamento;
 
-    public void cancelar(MotivoCancelamento motivoCancelamento) {
+    public Consulta(Medico medico, Paciente paciente, LocalDateTime data) {
+        this.medico = medico;
+        this.paciente = paciente;
+        this.data = data;
     }
 
+    public void cancelar(MotivoCancelamento motivo) {
+        this.motivoCancelamento = motivo;
+    }
 
 }

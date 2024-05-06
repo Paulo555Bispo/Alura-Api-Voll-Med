@@ -9,13 +9,24 @@ import java.time.LocalDateTime;
 
 public record DadosCancelamentoConsulta(
         Long idConsulta,
-        Long idMedico,
-        @NotNull
+/*        @NotNull
         Long idPaciente,
+        @NotNull
+        Long idMedico,
         @NotNull
         @Future
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime data,
-        Especialidade especialidade,
+        Especialidade especialidade,*/
         MotivoCancelamento motivoCancelamento) {
+
+/*        public DadosCancelamentoConsulta(Consulta consulta) {
+                this(consulta.getId(),
+                        consulta.getIdPaciente(),
+                        consulta.getIdMedico(),
+                        consulta.getData(),
+                        consulta.getEspecialidade(),
+                        consulta.getMotivoCancelamento()
+                );
+        }*/
 }

@@ -9,11 +9,13 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/*Renomeando, para não haver conflito com Classe de mesmo nome*/
 @Component("ValidadorHorarioAntecedenciaCancelamento")
 public class ValidadorHorarioAntecedencia implements ValidadorCancelamentoDeConsulta {
 
     @Autowired
     private ConsultaRepository repository;
+
     @Override
     public void validar(DadosCancelamentoConsulta dados) {
         var consulta = repository.getReferenceById(dados.idConsulta());

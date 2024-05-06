@@ -10,9 +10,7 @@ import med.voll.api.domain.endereco.DadosEndereco;
 public record DadosCadastroPaciente(
         @NotBlank String nome,
         @NotBlank @Email String email,
-        @NotBlank @Pattern(regexp = "\\d{10,12}")   /*EXPRESSÃO REGULAR*/
-        String telefone,
-        @NotBlank @Pattern(regexp = "\\d{11}")  /*EXPRESSÃO REGULAR*/
-        String cpf,
+        @NotBlank @Pattern(regexp = "\\d{10,12}") String telefone, /*EXPRESSÃO REGULAR*/
+        @NotBlank @Pattern(regexp = "\\d{11}") String cpf,  /*EXPRESSÃO REGULAR*/
         @NotNull @Valid DadosEndereco endereco) {
 }

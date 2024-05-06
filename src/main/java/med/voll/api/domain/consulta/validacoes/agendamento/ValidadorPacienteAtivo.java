@@ -7,10 +7,10 @@ import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component  /*Componente genérico, para ser usado na inicialização do projeto.*/
 public class ValidadorPacienteAtivo implements ValidadorAgendamentoDeConsulta {
 
-    @Autowired
+    @Autowired  /*Usado para quem está usando o Repository*/
     private PacienteRepository repository;
 
     public void validar(DadosAgendamentoConsulta dados) {

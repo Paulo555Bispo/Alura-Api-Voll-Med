@@ -18,19 +18,12 @@ import med.voll.api.domain.endereco.Endereco;
 public class Paciente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @NotBlank
-    private String nome;
-    @Email
-    @NotBlank
-    private String email;
-    @NotBlank
-    private String telefone;
-    @NotBlank
-    private String cpf;
-    @Embedded
-    private Endereco endereco;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @NotBlank private String nome;
+    @Email @NotBlank private String email;
+    @NotBlank private String telefone;
+    @NotBlank private String cpf;
+    @Embedded private Endereco endereco;
     private boolean ativo;
 
     public Paciente(DadosCadastroPaciente dados) {

@@ -12,33 +12,18 @@ import med.voll.api.domain.endereco.Endereco;
 @Table(name = "medicos")
 @Entity(name = "Medico")
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@NoArgsConstructor  /*Gerar construtor default*/
+@AllArgsConstructor  /*Para ter um construtor que recebe todos os campos.*/
+@EqualsAndHashCode(of = "id")  /*Para gerar HashCode em cima do ID.*/
 public class Medico {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank
-    private String nome;
-
-    @Email
-    @NotBlank
-    private String email;
-
-    @NotBlank
-    private String telefone;
-
-    @NotBlank
-    private String crm;
-
-    @Enumerated(EnumType.STRING)
-    private Especialidade especialidade;
-
-    @Embedded
-    private Endereco endereco;
-
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @NotBlank private String nome;
+    @Email @NotBlank private String email;
+    @NotBlank private String telefone;
+    @NotBlank private String crm;
+    @Enumerated(EnumType.STRING) private Especialidade especialidade;
+    @Embedded private Endereco endereco;
     private boolean ativo;
 
     public Medico(DadosCadastroMedico dados) {
