@@ -2,7 +2,9 @@ package med.voll.api.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import med.voll.api.domain.consulta.*;
+import med.voll.api.domain.medico.DadosAtualizarMedico;
 import med.voll.api.domain.medico.DadosDetalhamentoMedico;
 import med.voll.api.domain.medico.DadosListagemMedico;
 import med.voll.api.domain.paciente.DadosAtualizarPaciente;
@@ -36,24 +38,21 @@ public class ConsultaController {
         return ResponseEntity.ok(dto);
     }
 
-
-/*
-    @PostMapping
-    @Transactional  *//*Só é necessário informar, quando realizar uma transação com o banco de dados.*//*
-    public ResponseEntity agendar(@RequestBody @Valid DadosAgendamentoConsulta dados, UriComponentsBuilder uriComponentsBuilder) {
-        var consulta = new Consulta(dados);
-        repository.save(consulta);
-
-        var uri = uriComponentsBuilder.path("/consultas/{id}").buildAndExpand(consulta.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(new DadosDetalhamentoConsulta(consulta));
+/*    @PutMapping()
+    @jakarta.transaction.Transactional  *//*É usado quando houver uma transasão com o BD*//*
+    public ResponseEntity atualizar(@RequestBody @NotNull @Valid DadosAtualizarMedico dados) {
+        var medico = repository.getReferenceById(dados.id()); *//*O Repository é usado para acessar o Banco de Dados*//*
+        medico.atualizarInformacoes(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }*/
 
-    @DeleteMapping
-    @Transactional
+
+    @PutMapping()
+    @Transactional  /*É usado quando houver uma transação com o BD*/
     public ResponseEntity cancelar(@RequestBody @Valid DadosCancelamentoConsulta dados) {
-        agenda.cancelar(dados);
-        return ResponseEntity.noContent().build();
+        var consulta = repository.getReferenceById(dados.id());
+        consulta.cancelarConsultaMotivo(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoConsulta(consulta));
     }
 
    @GetMapping

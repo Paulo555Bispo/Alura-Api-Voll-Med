@@ -27,14 +27,17 @@ public class Consulta {
     @Enumerated(EnumType.STRING) private Especialidade especialidade;
     @Column(name = "motivo_cancelamento") @Enumerated(EnumType.STRING) private MotivoCancelamento motivoCancelamento;
 
-    public Consulta(Medico medico, Paciente paciente, LocalDateTime data) {
+    public Consulta(Medico medico, Paciente paciente, LocalDateTime data, Especialidade especialidade, MotivoCancelamento motivoCancelamento) {
         this.medico = medico;
         this.paciente = paciente;
         this.data = data;
+        this.especialidade = especialidade;
+        this.motivoCancelamento = motivoCancelamento;
     }
 
-    public void cancelar(MotivoCancelamento motivo) {
-        this.motivoCancelamento = motivo;
+    public void cancelarConsultaMotivo(DadosCancelamentoConsulta dados) {
+        if (dados.motivoCancelamento() != null) {
+            this.motivoCancelamento = dados.motivoCancelamento();
+        }
     }
-
 }

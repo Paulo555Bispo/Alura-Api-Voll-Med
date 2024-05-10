@@ -46,11 +46,11 @@ public class MedicoController {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
         return ResponseEntity.ok(page);
 
-        /* Você precisará passar paramentros na URL, indicando quantos registros irá colocar em cada página,
+        /* Você precisará passar parâmetros na URL, indicando quantos registros irá colocar em cada página,
         qual a ordem que deseja apresentar a listagem, etc.
-        Você poderá tambem, passar estar informações dentro do CONTROLER, através de uma anotação
+        Você poderá também, passar estar informações dentro do CONTROLLER, através de uma anotação
         @PageableDefault(size = 10, sort = {"nome"})
-        Resumindo: Você poderá passar os parametros na API, mas prevalecerá o que for passado na URL. */
+        Resumindo: Você poderá passar os parâmetros na API, mas prevalecerá o que for passado na URL. */
     }
 
     @GetMapping("/{id}")
@@ -60,12 +60,11 @@ public class MedicoController {
     }
 
     @PutMapping()
-    @Transactional
+    @Transactional  /*É usado quando houver uma transasão com o BD*/
     public ResponseEntity atualizar(@RequestBody @NotNull @Valid DadosAtualizarMedico dados) {
         var medico = repository.getReferenceById(dados.id()); /*O Repository é usado para acessar o Banco de Dados*/
         medico.atualizarInformacoes(dados);
         return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
-
     }
 
     @DeleteMapping("/{id}")

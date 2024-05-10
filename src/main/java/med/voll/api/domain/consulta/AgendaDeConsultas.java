@@ -52,7 +52,7 @@ public class AgendaDeConsultas {
         if (medico == null) {
             throw new ValidacaoException("Não existe médico disponível nesta data");
         }
-        var consulta = new Consulta(null, medico, paciente, dados.data(), null, null);
+        var consulta = new Consulta(null, medico, paciente, dados.data(), dados.especialidade(), null);
         consultaRepository.save(consulta);
 
         return new DadosDetalhamentoConsulta(consulta);
@@ -71,14 +71,14 @@ public class AgendaDeConsultas {
     }
 
     public void cancelar(DadosCancelamentoConsulta dados) {
-        if (!consultaRepository.existsById(dados.idConsulta())) {
+        if (!consultaRepository.existsById(dados.id())) {
             throw new ValidacaoException("Id da consulta informado não existe!");
         }
 
         validadoresCancelamento.forEach(v -> v.validar(dados));
 
-        var consulta = consultaRepository.getReferenceById(dados.idConsulta());
-        consulta.cancelar(dados.motivoCancelamento());
+        var consulta = consultaRepository.getReferenceById(dados.id());
+        consulta.cancelarConsultaMotivo(dados);
     }
 
 

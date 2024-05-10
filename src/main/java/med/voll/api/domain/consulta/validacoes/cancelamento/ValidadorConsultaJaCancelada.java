@@ -14,7 +14,7 @@ public class ValidadorConsultaJaCancelada implements ValidadorCancelamentoDeCons
 
     @Override
     public void validar(DadosCancelamentoConsulta dados) {
-        var consulta = repository.getReferenceById(dados.idConsulta());
+        var consulta = repository.getReferenceById(dados.id());
         if(consulta.getMotivoCancelamento() != null) {
             throw new ValidacaoException("Consulta já está cancelada pelo motivo: " + consulta.getMotivoCancelamento());
         }
