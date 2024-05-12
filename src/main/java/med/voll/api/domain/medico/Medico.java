@@ -11,7 +11,7 @@ import med.voll.api.domain.endereco.Endereco;
 
 @Table(name = "medicos")
 @Entity(name = "Medico")
-@Getter
+@Getter  /*Anotações do Lombok*/
 @NoArgsConstructor  /*Gerar construtor default*/
 @AllArgsConstructor  /*Para ter um construtor que recebe todos os campos.*/
 @EqualsAndHashCode(of = "id")  /*Para gerar HashCode em cima do ID.*/
@@ -23,9 +23,11 @@ public class Medico {
     @NotBlank private String telefone;
     @NotBlank private String crm;
     @Enumerated(EnumType.STRING) private Especialidade especialidade;
-    @Embedded private Endereco endereco;
+    @Embedded private Endereco endereco;  /*Está em uma classe separada, porem na mesma tabela.*/
     private boolean ativo;
 
+
+    /*Construtor criado para pegar os dados (DTO-JSON)*/
     public Medico(DadosCadastroMedico dados) {
         this.ativo = true;
         this.nome = dados.nome();
@@ -36,6 +38,7 @@ public class Medico {
         this.endereco = new Endereco(dados.endereco());
     }
 
+    /*Construtor criado para pegar os dados (DTO-JSON)*/
     public void atualizarInformacoes(DadosAtualizarMedico dados) {
         if (dados.nome() != null) {
             this.nome = dados.nome();

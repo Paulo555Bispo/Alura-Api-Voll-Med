@@ -24,14 +24,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class MedicoController {
 
     @Autowired  /*Injeção de dependencia*/
-    private MedicoRepository repository;
+    private MedicoRepository repository;  /*Interface para conexão com o banco de dados.*/
 
     @PostMapping
     @Transactional  /*Só é necessário informar, quando realizar uma transação com o banco de dados.*/
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriComponentsBuilder) {
-        var medico = new Medico(dados);
+        var medico = new Medico(dados); /*É necessário usar um construtor para converter os dados (JSON), no formato JPA.*/
         repository.save(medico);
-
+// TODO Desenvolva uma API Rest em Java - 03.Spring Data JPA - 09.Migrations com Flyway
         var uri = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));

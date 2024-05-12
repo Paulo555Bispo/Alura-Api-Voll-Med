@@ -18,6 +18,7 @@ public class Endereco {
     private String complemento;
     private String numero;
 
+    /*Construtor criado para pegar os dados (DTO-JSON)*/
     public Endereco(DadosEndereco dados) {
         this.logradouro = dados.logradouro();
         this.numero = dados.numero();
@@ -28,6 +29,7 @@ public class Endereco {
         this.cep = dados.cep();
     }
 
+    /*Construtor criado para pegar os dados (DTO-JSON)*/
     public void atualizarInformacoes(DadosEndereco dados) {
         if (dados.logradouro() != null) {
             this.logradouro = dados.logradouro();

@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     /* Liberar a requisição sem um token.*/
+                    /*req.requestMatchers("/hello").permitAll();*/
                     req.requestMatchers(HttpMethod.POST, "/login").permitAll();
                     /* É necessária a liberação dos três endereços abaixo, para visualizar a documentação
                        gerada pelo SpringDoc */
